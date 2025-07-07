@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Timer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #142435;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #e9f0f5;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #5f7f86;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .buttons button {
+            margin: 0 5px;
+            padding: 8px 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .start-btn {
+            background-color: #8faeb8;
+            color: #000;
+        }
+
+        .stop-btn {
+            background-color: red;
+            color: #fff;
+        }
+
+        .reset-btn {
+            background-color: lightgreen;
+            color: #000;
+        }
+
+            .start-btn:hover,
+            .stop-btn:hover,
+            .reset-btn:hover {
+                opacity: 0.9;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>TIMER</h1>
+        <div id="timer">25:00</div>
+        <div class="buttons">
+            <button class="start-btn" onclick="startTimer()">START</button>
+            <button class="stop-btn" onclick="stopTimer()">STOP</button>
+            <button class="reset-btn" onclick="resetTimer()">RESET</button>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let minutes = 25;
+        let seconds = 0;
+        let isRunning = false;
+
+        function updateDisplay() {
+            const display = document.getElementById("timer");
+            display.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            timer = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(timer);
+                        isRunning = false;
+                        return;
+                    } else {
+                        minutes--;
+                        seconds = 59;
+                    }
+                } else {
+                    seconds--;
+                }
+                updateDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            isRunning = false;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            minutes = 25;
+            seconds = 0;
+            updateDisplay();
+        }
+
+        updateDisplay(); 
+    </script>
+
+</body>
+</html>
